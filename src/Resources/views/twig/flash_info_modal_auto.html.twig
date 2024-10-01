@@ -1,0 +1,22 @@
+<link rel="stylesheet" href="{{ asset("bundles/flashinfo/tingle.min.css") }}">
+<script src="{{ asset("bundles/flashinfo/tingle.min.js") }}"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+        fetch("{{ path('flash_infos_auto') }}")
+            .then(function(response){
+                if (response.ok) {
+                    return response.json();
+                }
+                return Promise.reject();
+            }).then(function(data){
+                if (data.displayModal) {
+                    let flashInfoModal = new tingle.modal();
+                    flashInfoModal.setContent(data.template);
+
+                    flashInfoModal.open();
+                }
+            }).catch(function(error){
+                console.error(error);
+            });
+    });
+</script>

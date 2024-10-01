@@ -1,0 +1,59 @@
+<?xml version="1.0" ?>
+<form xmlns="http://schemas.sulu.io/template/template"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://schemas.sulu.io/template/template http://schemas.sulu.io/template/form-1.0.xsd"
+>
+    <key>flash_info_details</key>
+    <properties>
+        <property name="title" type="text_line" mandatory="true">
+            <meta>
+                <title>flash_info.title</title>
+            </meta>
+        </property>
+
+        <property name="image" type="single_media_selection" colspan="6">
+            <meta>
+                <title>flash_info.image</title>
+            </meta>
+        </property>
+
+        <property name="pdfs" type="media_selection" colspan="6">
+            <meta>
+                <title>flash_info.documents</title>
+            </meta>
+            <params>
+                <param name="types" value="document"/>
+            </params>
+        </property>
+
+        <property name="startDate" type="date" colspan="6" mandatory="true">
+            <meta>
+                <title>flash_info.startDate</title>
+            </meta>
+        </property>
+
+        <property name="endDate" type="date" colspan="6" mandatory="true">
+            <meta>
+                <title>flash_info.endDate</title>
+            </meta>
+        </property>
+
+        <property name="description" type="text_editor" mandatory="true">
+            <meta>
+                <title>flash_info.description</title>
+            </meta>
+        </property>
+
+        <property name="labelLinkButton" type="text_line" colspan="6">
+            <meta>
+                <title>flash_info.labelLinkButton</title>
+            </meta>
+        </property>
+
+        <property name="link" type="link" colspan="6">
+            <meta>
+                <title>flash_info.link</title>
+            </meta>
+        </property>
+    </properties>
+</form>

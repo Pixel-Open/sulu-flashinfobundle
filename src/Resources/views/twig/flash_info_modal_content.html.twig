@@ -1,0 +1,38 @@
+{% for flashInfo in flashInfos %}
+    <div>
+        <h2>{{ flashInfo.title }}</h2>
+        {% if flashInfo.image is not null %}
+            {% set img = sulu_resolve_media(flashInfo.image, "fr") %}
+            <img src="{{ img.thumbnails['991x'] }}" alt="{{ flashInfo.title }}">
+        {% endif %}
+
+        <div>
+            {{ flashInfo.description|raw }}
+        </div>
+
+        <div>
+            {% if flashInfo.link is not null %}
+                {% set labelLinkButton = (flashInfo.labelLinkButton is not null) ? flashInfo.labelLinkButton : "know_more"|trans %}
+                {% if flashInfo.link.provider == "external" %}
+                    <a href="{{ flashInfo.link.href }}">{{ labelLinkButton }}</a>
+                {% else %}
+                    <a href="{{ sulu_content_load(flashInfo.link.href).content.url }}">{{ labelLinkButton }}</a>
+                {% endif %}
+{#                {% if flashInfo.link.provider == "external" %}#}
+{#                    <a href="{{ flashInfo.link }}">{{ labelLinkButton }}</a>#}
+{#                {% else %}#}
+{#                    <sulu-link href="{{ flashInfo.link.href }}">{{ labelLinkButton }}</sulu-link>#}
+{#                {% endif %}#}
+            {% endif %}
+        </div>
+
+        {% if flashInfo.pdfs is not null %}
+            <div>
+                {% for document in flashInfo.pdfs.ids %}
+                    {% set doc = sulu_resolve_media(document, "fr") %}
+                    <a href="{{ doc.url }}" target="_blank">{{ doc.title }}</a>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+{% endfor %}

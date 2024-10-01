@@ -1,0 +1,17 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  Pixel\FlashInfoBundle\Controller\Website\:
+    resource: "../../Controller/Website"
+
+  Pixel\FlashInfoBundle\Service\SettingsService:
+    public: true
+    autowire: true
+
+  Pixel\FlashInfoBundle\Twig\FlashInfoExtension:
+    public: false
+    autowire: true
+    tags:
+      - {name: twig.extension}
