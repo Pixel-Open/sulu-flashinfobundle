@@ -18,7 +18,6 @@ class FlashInfoAutoController extends AbstractController
      */
     public function flashInfosAuto(EntityManagerInterface $entityManager, Request $request): JsonResponse
     {
-
         $flashInfos = $entityManager->getRepository(FlashInfo::class)->findPublishedFlashInfo();
         $settings = $entityManager->getRepository(Setting::class)->findOneBy([]);
         $createCookie = false;
