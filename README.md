@@ -71,6 +71,17 @@ flash_info.setting_api:
   name_prefix: flashinfo.
 ```
 
+Define the Website Api Route in `routes_website.yaml`
+```yaml
+flash_infos_auto:
+  path: /flash-infos-auto
+  controller: Pixel\FlashInfoBundle\Controller\Website\FlashInfoAutoController::flashInfosAuto
+
+flash_infos_click:
+  path: /flash-infos-click
+  controller: Pixel\FlashInfoBundle\Controller\Website\FlashInfoClickController::flashInfosClick
+```
+
 ## Use
 ### Add/Edit a news flash
 
