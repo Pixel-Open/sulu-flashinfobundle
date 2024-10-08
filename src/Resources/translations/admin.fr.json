@@ -16,6 +16,8 @@
   "flash_info.settings.doNotOpen": "Ne pas ouvrir",
   "flash_info.settings.openOnce": "Ouvrir une seule fois",
   "flash_info.settings.openEveryTime": "Ouvrir à chaque fois",
+  "flash_info_settings.cookieDuration": "Durée du cookie (en jours)",
+  "flash_info_settings.default_duration": "Si la durée n'est pas renseignée, elle sera de 30 jours par défaut",
   "flash_info.list": "Liste des flash infos",
   "flash_info.empty": "Sélectionner un flash info",
   "sulu_activity.resource.flash_infos": "Flash info",

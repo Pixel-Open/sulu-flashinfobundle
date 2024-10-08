@@ -16,6 +16,8 @@
   "flash_info.settings.doNotOpen": "Do not open",
   "flash_info.settings.openOnce": "Open once",
   "flash_info.settings.openEveryTime": "Open every time",
+  "flash_info_settings.cookieDuration": "Cookie duration (in days)",
+  "flash_info_settings.default_duration": "If the duration is not entered, it will be 30 days by default",
   "flash_info.list": "List of news flashes",
   "flash_info.empty": "Select a newsflash",
   "sulu_activity.resource.flash_infos": "News flash",

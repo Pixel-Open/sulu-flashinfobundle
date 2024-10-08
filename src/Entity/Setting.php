@@ -42,6 +42,12 @@ class Setting implements AuditableInterface
      */
     private int $popupPolicy;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     * @Serializer\Expose()
+     */
+    private ?int $cookieDuration = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -55,5 +61,15 @@ class Setting implements AuditableInterface
     public function setPopupPolicy(int $popupPolicy): void
     {
         $this->popupPolicy = $popupPolicy;
+    }
+
+    public function getCookieDuration(): ?int
+    {
+        return $this->cookieDuration;
+    }
+
+    public function setCookieDuration(?int $cookieDuration): void
+    {
+        $this->cookieDuration = $cookieDuration;
     }
 }
