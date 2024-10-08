@@ -54,6 +54,12 @@
             <meta>
                 <title>flash_info.link</title>
             </meta>
+            <params>
+                <param name="types" type="collection">
+                    <param name="page"/>
+                    <param name="external"/>
+                </param>
+            </params>
         </property>
     </properties>
 </form>

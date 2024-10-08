@@ -53,7 +53,10 @@ class SettingController extends AbstractRestController implements ClassResourceI
      */
     protected function mapDataToEntity(array $data, Setting $entity): void
     {
+        $cookieDuration = $data['cookieDuration'] ?? null;
+
         $entity->setPopupPolicy($data['popupPolicy']);
+        $entity->setCookieDuration($cookieDuration);
     }
 
     public function getSecurityContext(): string

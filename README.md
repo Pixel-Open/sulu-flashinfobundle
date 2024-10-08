@@ -71,6 +71,17 @@ flash_info.setting_api:
   name_prefix: flashinfo.
 ```
 
+Define the Website Api Route in `routes_website.yaml`
+```yaml
+flash_infos_auto:
+  path: /flash-infos-auto
+  controller: Pixel\FlashInfoBundle\Controller\Website\FlashInfoAutoController::flashInfosAuto
+
+flash_infos_click:
+  path: /flash-infos-click
+  controller: Pixel\FlashInfoBundle\Controller\Website\FlashInfoClickController::flashInfosClick
+```
+
 ## Use
 ### Add/Edit a news flash
 
@@ -112,10 +123,12 @@ To permanently delete a news flash, select it and click on the "Delete" button o
 ### Settings
 
 The settings allow you to set up how the news flash modal should be displayed.
-To access it, go to Settings > Newsflash management. You will have a select with the following options:
-- Do not open: the modal is never opened automatically
-- Open once: the modal is open on the first visit of the site (stored in a cookie)
-- Open every time: the modal is opened each time during the user's visit
+To access it, go to Settings > Newsflash management. You will have two parameters:
+- A select which allows you to define if the modal should be opened automatically and how many times. It has the following options:
+  - Do not open: the modal is never opened automatically
+  - Open once: the modal is open on the first visit of the site (stored in a cookie)
+  - Open every time: the modal is opened each time during the user's visit
+- A number input that is used to determine the cookie duration. By default, the duration is 30 days
 
 ![](src/Resources/documentation/settings.png)
 

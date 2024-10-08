@@ -14,5 +14,12 @@
                 <param name="values" type="expression" value="service('Pixel\\FlashInfoBundle\\Service\\SettingsService').getPopupPolicies(locale)"/>
             </params>
         </property>
+
+        <property name="cookieDuration" type="number">
+            <meta>
+                <title>flash_info_settings.cookieDuration</title>
+                <info_text>flash_info_settings.default_duration</info_text>
+            </meta>
+        </property>
     </properties>
 </form>
