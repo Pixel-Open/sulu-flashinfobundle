@@ -164,7 +164,7 @@ This function must be placed in the head tag and takes one parameter:
     {{ display_flash_info_modal_on_click('flashInfo') }}
 </head>
 <body>
-    <button id="flashInfo">Open the news flashes</button>
+    <button class="flashInfo">Open the news flashes</button>
 </body>
 ```
 

@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.5.2 (16/10/2024)
+
++ Replace id with class to open modal
+
 ## 2.5.1 (08/10/2024)
 
 + Add cookie duration parameter for news flashes
