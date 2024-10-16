@@ -2,25 +2,27 @@
 <script src="{{ asset("bundles/flashinfo/tingle.min.js") }}"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function(){
-        let buttonFlashInfo = document.querySelector("#{{ elementId }}");
-        buttonFlashInfo.addEventListener("click", function(event){
-            event.preventDefault();
-            fetch("{{ path('flash_infos_click') }}")
-                .then(function(response){
-                    if (response.ok) {
-                        return response.json();
-                    }
-                    return Promise.reject()
-                }).then(function(data){
-                if (data.displayModal) {
-                    let flashInfoModal = new tingle.modal();
-                    flashInfoModal.setContent(data.template);
+        let buttonsFlashInfo = document.querySelectorAll(".{{ elementClass }}");
+        for (let buttonFlashInfo of buttonsFlashInfo) {
+            buttonFlashInfo.addEventListener("click", function(event){
+                event.preventDefault();
+                fetch("{{ path('flash_infos_click') }}")
+                    .then(function(response){
+                        if (response.ok) {
+                            return response.json();
+                        }
+                        return Promise.reject()
+                    }).then(function(data){
+                    if (data.displayModal) {
+                        let flashInfoModal = new tingle.modal();
+                        flashInfoModal.setContent(data.template);
 
-                    flashInfoModal.open();
-                }
-            }).catch(function(error){
-                console.error(error);
+                        flashInfoModal.open();
+                    }
+                }).catch(function(error){
+                    console.error(error);
+                });
             });
-        });
+        }
     });
 </script>

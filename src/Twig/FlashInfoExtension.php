@@ -32,10 +32,10 @@ class FlashInfoExtension extends AbstractExtension
         return $this->environment->render("@FlashInfo/twig/flash_info_modal_auto.html.twig");
     }
 
-    public function displayFlashInfoMessageOnClick(string $elementId): string
+    public function displayFlashInfoMessageOnClick(string $elementClass): string
     {
         return $this->environment->render('@FlashInfo/twig/flash_info_modal_click.html.twig', [
-            'elementId' => $elementId,
+            'elementClass' => $elementClass,
         ]);
     }
 }
