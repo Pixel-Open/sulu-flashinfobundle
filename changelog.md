@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.5.3 (01/10/2026)
+## 2.6.0 (01/10/2026)
 
 + Compatible Symfony 7.4
 + Migration routes to attributes
