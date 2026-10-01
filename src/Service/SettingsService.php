@@ -2,16 +2,19 @@
 
 namespace Pixel\FlashInfoBundle\Service;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Pixel\FlashInfoBundle\Entity\Setting;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class SettingsService
 {
     private TranslatorInterface $translator;
+    private EntityManagerInterface $entityManager;
 
-    public function __construct(TranslatorInterface $translator)
+    public function __construct(TranslatorInterface $translator, EntityManagerInterface $entityManager)
     {
         $this->translator = $translator;
+        $this->entityManager = $entityManager;
     }
 
     /**
@@ -33,5 +36,19 @@ class SettingsService
                 'title' => $this->translator->trans("flash_info.settings.openEveryTime", [], "admin", $locale),
             ],
         ];
+    }
+
+    public function getOrCreateSettings(): Setting
+    {
+        $settings = $this->entityManager->getRepository(Setting::class)->findOneBy([]);
+
+        if (!$settings) {
+            $settings = new Setting();
+            $settings->setPopupPolicy(Setting::OPEN_ONCE);
+            $this->entityManager->persist($settings);
+            $this->entityManager->flush();
+        }
+
+        return $settings;
     }
 }

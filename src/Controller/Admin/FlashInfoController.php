@@ -12,6 +12,7 @@ use FOS\RestBundle\View\ViewHandlerInterface;
 use HandcraftedInTheAlps\RestRoutingBundle\Controller\Annotations\RouteResource;
 use HandcraftedInTheAlps\RestRoutingBundle\Routing\ClassResourceInterface;
 use Pixel\FlashInfoBundle\Common\DoctrineListRepresentationFactory;
+use Pixel\FlashInfoBundle\Reference\FlashInfoReferenceProvider;
 use Pixel\FlashInfoBundle\Domain\Event\FlashInfoCreatedEvent;
 use Pixel\FlashInfoBundle\Domain\Event\FlashInfoModifiedEvent;
 use Pixel\FlashInfoBundle\Domain\Event\FlashInfoRemovedEvent;
@@ -23,7 +24,6 @@ use Sulu\Bundle\TrashBundle\Application\TrashManager\TrashManagerInterface;
 use Sulu\Component\Rest\AbstractRestController;
 use Sulu\Component\Rest\Exception\EntityNotFoundException;
 use Sulu\Component\Rest\Exception\RestException;
-use Sulu\Component\Rest\RequestParametersTrait;
 use Sulu\Component\Security\SecuredControllerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -36,8 +36,6 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
  */
 class FlashInfoController extends AbstractRestController implements ClassResourceInterface, SecuredControllerInterface
 {
-    use RequestParametersTrait;
-
     private DoctrineListRepresentationFactory $doctrineListRepresentationFactory;
 
     private EntityManagerInterface $entityManager;
@@ -50,6 +48,8 @@ class FlashInfoController extends AbstractRestController implements ClassResourc
 
     private TrashManagerInterface $trashManager;
 
+    private FlashInfoReferenceProvider $flashInfoReferenceProvider;
+
     public function __construct(
         DoctrineListRepresentationFactory $doctrineListRepresentationFactory,
         EntityManagerInterface $entityManager,
@@ -58,6 +58,7 @@ class FlashInfoController extends AbstractRestController implements ClassResourc
         DomainEventCollectorInterface $domainEventCollector,
         TrashManagerInterface $trashManager,
         ViewHandlerInterface $viewHandler,
+        FlashInfoReferenceProvider $flashInfoReferenceProvider,
         ?TokenStorageInterface $tokenStorage = null
     ) {
         $this->doctrineListRepresentationFactory = $doctrineListRepresentationFactory;
@@ -66,6 +67,7 @@ class FlashInfoController extends AbstractRestController implements ClassResourc
         $this->flashInfoRepository = $flashInfoRepository;
         $this->domainEventCollector = $domainEventCollector;
         $this->trashManager = $trashManager;
+        $this->flashInfoReferenceProvider = $flashInfoReferenceProvider;
         parent::__construct($viewHandler, $tokenStorage);
     }
 
@@ -127,6 +129,8 @@ class FlashInfoController extends AbstractRestController implements ClassResourc
         );
         $this->entityManager->flush();
         $this->save($flashInfo);
+        $this->flashInfoReferenceProvider->updateReferences($flashInfo, (string) $this->getLocale($request), 'admin');
+
         return $this->handleView($this->view($flashInfo));
     }
 
@@ -162,6 +166,7 @@ class FlashInfoController extends AbstractRestController implements ClassResourc
             new FlashInfoCreatedEvent($flashInfo, $data)
         );
         $this->entityManager->flush();
+        $this->flashInfoReferenceProvider->updateReferences($flashInfo, (string) $this->getLocale($request), 'admin');
 
         return $this->handleView($this->view($flashInfo, 201));
     }
@@ -192,8 +197,8 @@ class FlashInfoController extends AbstractRestController implements ClassResourc
      */
     public function postTriggerAction(int $id, Request $request): Response
     {
-        $action = $this->getRequestParameter($request, 'action', true);
-        $locale = $this->getRequestParameter($request, 'locale', true);
+        $action = $request->query->get('action');
+        $locale = $request->query->get('locale');
 
         try {
             switch ($action) {

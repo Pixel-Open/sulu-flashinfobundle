@@ -5,6 +5,7 @@ namespace Pixel\FlashInfoBundle\Controller\Website;
 use Doctrine\ORM\EntityManagerInterface;
 use Pixel\FlashInfoBundle\Entity\FlashInfo;
 use Pixel\FlashInfoBundle\Entity\Setting;
+use Pixel\FlashInfoBundle\Service\SettingsService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -13,13 +14,11 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class FlashInfoAutoController extends AbstractController
 {
-    /**
-     * @Route("flash-infos-auto", name="flash_infos_auto")
-     */
-    public function flashInfosAuto(EntityManagerInterface $entityManager, Request $request): JsonResponse
+    #[Route(path: 'flash-infos-auto', name: 'flash_infos_auto')]
+    public function flashInfosAuto(EntityManagerInterface $entityManager, Request $request, SettingsService $settingsService): JsonResponse
     {
         $flashInfos = $entityManager->getRepository(FlashInfo::class)->findPublishedFlashInfo();
-        $settings = $entityManager->getRepository(Setting::class)->findOneBy([]);
+        $settings = $settingsService->getOrCreateSettings();
         $createCookie = false;
         $lastFlashInfoTimestamp = (!empty($flashInfos)) ? $flashInfos[0]->getChanged()->getTimestamp() : false;
         $json = [];

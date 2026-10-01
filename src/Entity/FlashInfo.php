@@ -8,12 +8,9 @@ use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 use Sulu\Bundle\MediaBundle\Entity\MediaInterface;
 
-/**
- * @ORM\Entity()
- * @ORM\Table(name="flash_info")
- * @Serializer\ExclusionPolicy("all")
- * @ORM\Entity(repositoryClass="Pixel\FlashInfoBundle\Repository\FlashInfoRepository")
- */
+#[ORM\Entity(repositoryClass: "Pixel\FlashInfoBundle\Repository\FlashInfoRepository")]
+#[ORM\Table(name: "flash_info")]
+#[Serializer\ExclusionPolicy("all")]
 class FlashInfo
 {
     public const RESOURCE_KEY = 'flash_infos';
@@ -24,57 +21,47 @@ class FlashInfo
 
     public const SECURITY_CONTEXT = "flash_infos";
 
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     * @Serializer\Expose()
-     */
+    #[ORM\Id()]
+    #[ORM\GeneratedValue()]
+    #[ORM\Column(type: "integer")]
+    #[Serializer\Expose()]
     private ?int $id = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=MediaInterface::class)
-     * @ORM\JoinColumn(onDelete="SET NULL")
-     * @Serializer\Expose()
-     */
+    #[ORM\ManyToOne(targetEntity: MediaInterface::class)]
+    #[ORM\JoinColumn(onDelete: "SET NULL")]
+    #[Serializer\Expose()]
     private ?MediaInterface $image = null;
 
     /**
-     * @ORM\Column(type="json", nullable=true)
-     * @Serializer\Expose()
      * @var array<mixed>|null
      */
+    #[ORM\Column(type: "json", nullable: true)]
+    #[Serializer\Expose()]
     private ?array $pdfs = null;
 
-    /**
-     * @ORM\Column(type="date_immutable")
-     * @Serializer\Expose()
-     */
+    #[ORM\Column(type: "date_immutable")]
+    #[Serializer\Expose()]
     private \DateTimeImmutable $startDate;
 
-    /**
-     * @ORM\Column(type="date_immutable")
-     * @Serializer\Expose()
-     */
+    #[ORM\Column(type: "date_immutable")]
+    #[Serializer\Expose()]
     private \DateTimeImmutable $endDate;
 
     /**
-     * @ORM\Column(type="json", nullable=true)
-     * @Serializer\Expose()
      * @var array<mixed>|null
      */
+    #[ORM\Column(type: "json", nullable: true)]
+    #[Serializer\Expose()]
     private ?array $link = null;
 
     /**
      * @var Collection<string, FlashInfoTranslation>
-     * @ORM\OneToMany(targetEntity="Pixel\FlashInfoBundle\Entity\FlashInfoTranslation", mappedBy="flashInfo", cascade={"ALL"}, indexBy="locale")
-     * @Serializer\Exclude()
      */
+    #[ORM\OneToMany(targetEntity: "Pixel\FlashInfoBundle\Entity\FlashInfoTranslation", mappedBy: "flashInfo", cascade: ["ALL"], indexBy: "locale")]
+    #[Serializer\Exclude()]
     private $translations;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
     private ?string $defaultLocale = null;
 
     private string $locale = "fr";
@@ -194,9 +181,7 @@ class FlashInfo
         $this->locale = $locale;
     }
 
-    /**
-     * @Serializer\VirtualProperty(name="title")
-     */
+    #[Serializer\VirtualProperty(name: "title")]
     public function getTitle(): ?string
     {
         $translation = $this->getTranslation($this->locale);
@@ -216,9 +201,7 @@ class FlashInfo
         return $this;
     }
 
-    /**
-     * @Serializer\VirtualProperty(name="description")
-     */
+    #[Serializer\VirtualProperty(name: "description")]
     public function getDescription(): ?string
     {
         $translation = $this->getTranslation($this->locale);
@@ -238,9 +221,7 @@ class FlashInfo
         return $this;
     }
 
-    /**
-     * @Serializer\VirtualProperty(name="label_link_button")
-     */
+    #[Serializer\VirtualProperty(name: "label_link_button")]
     public function getLabelLinkButton(): ?string
     {
         $translation = $this->getTranslation($this->locale);
@@ -260,9 +241,7 @@ class FlashInfo
         return $this;
     }
 
-    /**
-     * @Serializer\VirtualProperty(name="is_active")
-     */
+    #[Serializer\VirtualProperty(name: "is_active")]
     public function getIsActive(): ?bool
     {
         $translation = $this->getTranslation($this->locale);
@@ -282,9 +261,7 @@ class FlashInfo
         return $this;
     }
 
-    /**
-     * @Serializer\VirtualProperty(name="created")
-     */
+    #[Serializer\VirtualProperty(name: "created")]
     public function getCreated(): ?\DateTime
     {
         $translation = $this->getTranslation($this->locale);
@@ -304,9 +281,7 @@ class FlashInfo
         return $this;
     }
 
-    /**
-     * @Serializer\VirtualProperty(name="changed")
-     */
+    #[Serializer\VirtualProperty(name: "changed")]
     public function getChanged(): ?\DateTime
     {
         $translation = $this->getTranslation($this->locale);

@@ -3,12 +3,27 @@
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
+        <service id="pixel_flashinfo.flash-info_reference_provider"
+                 class="Pixel\FlashInfoBundle\Reference\FlashInfoReferenceProvider">
+            <argument type="service" id="sulu_reference.reference_repository"/>
+        </service>
+
+        <service id="pixel_flashinfo.flash-info_reference_refresher"
+                 class="Pixel\FlashInfoBundle\Reference\FlashInfoReferenceRefresher">
+            <argument type="service" id="pixel_flashinfo.flash-info_reference_provider"/>
+            <argument type="service" id="pixel_flashinfo.flash-info_repository"/>
+            <argument type="service" id="sulu_core.webspace.webspace_manager"/>
+            <argument>%sulu.context%</argument>
+            <tag name="sulu_reference.refresher"/>
+        </service>
+
         <!-- Admin -->
         <service id="pixel_flashinfo.flash-info" class="Pixel\FlashInfoBundle\Admin\FlashInfoAdmin">
             <argument type="service" id="sulu_admin.view_builder_factory"/>
             <argument type="service" id="sulu_security.security_checker"/>
             <argument type="service" id="sulu_core.webspace.webspace_manager"/>
             <argument type="service" id="sulu_activity.activity_list_view_builder_factory"/>
+            <argument type="service" id="sulu_reference.reference_list_view_builder_factory"/>
             <tag name="sulu.admin"/>
             <tag name="sulu.context" context="admin"/>
         </service>
@@ -63,6 +78,7 @@
             <argument type="service" id="sulu_activity.domain_event_collector"/>
             <argument type="service" id="sulu_trash.trash_manager"/>
             <argument type="service" id="fos_rest.view_handler.default"/>
+            <argument type="service" id="pixel_flashinfo.flash-info_reference_provider"/>
             <argument type="service" id="security.token_storage"/>
 
             <tag name="sulu.context" context="admin"/>
@@ -72,6 +88,7 @@
                  class="Pixel\FlashInfoBundle\Controller\Admin\SettingController"
                  public="true">
             <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument type="service" id="Pixel\FlashInfoBundle\Service\SettingsService"/>
             <argument type="service" id="fos_rest.view_handler.default"/>
             <argument type="service" id="security.token_storage"/>
 
