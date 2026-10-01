@@ -10,9 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class FlashInfoClickController extends AbstractController
 {
-    /**
-     * @Route("flash-infos-click", name="flash_infos_click")
-     */
+    #[Route(path: 'flash-infos-click', name: 'flash_infos_click')]
     public function flashInfosClick(EntityManagerInterface $entityManager): JsonResponse
     {
         $flashInfos = $entityManager->getRepository(FlashInfo::class)->findPublishedFlashInfo();

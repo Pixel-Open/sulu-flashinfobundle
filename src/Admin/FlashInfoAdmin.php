@@ -5,6 +5,7 @@ namespace Pixel\FlashInfoBundle\Admin;
 use Pixel\FlashInfoBundle\Entity\FlashInfo;
 use Sulu\Bundle\ActivityBundle\Infrastructure\Sulu\Admin\View\ActivityViewBuilderFactory;
 use Sulu\Bundle\AdminBundle\Admin\Admin;
+use Sulu\Bundle\ReferenceBundle\Infrastructure\Sulu\Admin\View\ReferenceViewBuilderFactoryInterface;
 use Sulu\Bundle\AdminBundle\Admin\Navigation\NavigationItem;
 use Sulu\Bundle\AdminBundle\Admin\Navigation\NavigationItemCollection;
 use Sulu\Bundle\AdminBundle\Admin\View\TogglerToolbarAction;
@@ -36,16 +37,20 @@ class FlashInfoAdmin extends Admin
 
     private ActivityViewBuilderFactory $activityViewBuilderFactory;
 
+    private ReferenceViewBuilderFactoryInterface $referenceViewBuilderFactory;
+
     public function __construct(
         ViewBuilderFactory $viewBuilderFactory,
         SecurityCheckerInterface $securityChecker,
         WebspaceManagerInterface $webspaceManager,
-        ActivityViewBuilderFactory $activityViewBuilderFactory
+        ActivityViewBuilderFactory $activityViewBuilderFactory,
+        ReferenceViewBuilderFactoryInterface $referenceViewBuilderFactory
     ) {
         $this->viewBuilderFactory = $viewBuilderFactory;
         $this->securityChecker = $securityChecker;
         $this->webspaceManager = $webspaceManager;
         $this->activityViewBuilderFactory = $activityViewBuilderFactory;
+        $this->referenceViewBuilderFactory = $referenceViewBuilderFactory;
     }
 
     public function configureNavigationItems(NavigationItemCollection $navigationItemCollection): void
@@ -138,6 +143,18 @@ class FlashInfoAdmin extends Admin
             if ($this->activityViewBuilderFactory->hasActivityListPermission()) {
                 $viewCollection->add(
                     $this->activityViewBuilderFactory->createActivityListViewBuilder(static::EDIT_FORM_VIEW . ".activity", "/activity", FlashInfo::RESOURCE_KEY)
+                        ->setParent(static::EDIT_FORM_VIEW)
+                );
+            }
+
+            if ($this->referenceViewBuilderFactory->hasReferenceListPermission()) {
+                $viewCollection->add(
+                    $this->referenceViewBuilderFactory
+                        ->createReferenceListViewBuilder(
+                            static::EDIT_FORM_VIEW . ".insights.reference",
+                            "/references",
+                            FlashInfo::RESOURCE_KEY
+                        )
                         ->setParent(static::EDIT_FORM_VIEW)
                 );
             }

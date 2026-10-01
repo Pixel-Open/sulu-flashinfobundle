@@ -7,6 +7,7 @@ use FOS\RestBundle\View\ViewHandlerInterface;
 use HandcraftedInTheAlps\RestRoutingBundle\Controller\Annotations\RouteResource;
 use HandcraftedInTheAlps\RestRoutingBundle\Routing\ClassResourceInterface;
 use Pixel\FlashInfoBundle\Entity\Setting;
+use Pixel\FlashInfoBundle\Service\SettingsService;
 use Sulu\Component\Rest\AbstractRestController;
 use Sulu\Component\Security\SecuredControllerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,20 +20,23 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 class SettingController extends AbstractRestController implements ClassResourceInterface, SecuredControllerInterface
 {
     private EntityManagerInterface $entityManager;
+    private SettingsService $settingsService;
 
     public function __construct(
         EntityManagerInterface $entityManager,
+        SettingsService $settingsService,
         ViewHandlerInterface $viewHandler,
         ?TokenStorageInterface $tokenStorage
     ) {
         $this->entityManager = $entityManager;
+        $this->settingsService = $settingsService;
         parent::__construct($viewHandler, $tokenStorage);
     }
 
     public function getAction(): Response
     {
-        $applicationSetting = $this->entityManager->getRepository(Setting::class)->findOneBy([]);
-        return $this->handleView($this->view($applicationSetting) ?: new Setting());
+        $applicationSetting = $this->settingsService->getOrCreateSettings();
+        return $this->handleView($this->view($applicationSetting));
     }
 
     public function putAction(Request $request): Response

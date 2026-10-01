@@ -7,11 +7,9 @@ use JMS\Serializer\Annotation as Serializer;
 use Sulu\Component\Persistence\Model\AuditableInterface;
 use Sulu\Component\Persistence\Model\AuditableTrait;
 
-/**
- * @ORM\Entity()
- * @ORM\Table(name="flash_info_settings")
- * @Serializer\ExclusionPolicy("all")
- */
+#[ORM\Entity()]
+#[ORM\Table(name: "flash_info_settings")]
+#[Serializer\ExclusionPolicy("all")]
 class Setting implements AuditableInterface
 {
     use AuditableTrait;
@@ -28,24 +26,18 @@ class Setting implements AuditableInterface
 
     public const OPEN_EVERY_TIME = 3;
 
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     * @Serializer\Expose()
-     */
+    #[ORM\Id()]
+    #[ORM\GeneratedValue()]
+    #[ORM\Column(type: "integer")]
+    #[Serializer\Expose()]
     private ?int $id = null;
 
-    /**
-     * @ORM\Column(type="integer")
-     * @Serializer\Expose()
-     */
+    #[ORM\Column(type: "integer")]
+    #[Serializer\Expose()]
     private int $popupPolicy;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     * @Serializer\Expose()
-     */
+    #[ORM\Column(type: "integer", nullable: true)]
+    #[Serializer\Expose()]
     private ?int $cookieDuration = null;
 
     public function getId(): ?int
